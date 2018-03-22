@@ -16,8 +16,16 @@ const save = (key, entry) => {
   const store = process.env.STORE_FILE || 'db.json'
   createStore(store)
 
-  fs.readFile(store, (err, file) => {
-    const json = JSON.parse(file)
+  fs.readFile(store, (err, data) => {
+    if (err) return
+
+    let json
+    try {
+      json = JSON.parse(data)
+    } catch (e) {
+      json = {}
+    }
+
     json[key] = json[key] || []
     json[key].push(entry)
 
@@ -30,9 +38,9 @@ app.use(koaBody())
 
 app.use(async ctx => {
   ctx.body = { success: true }
-  
-  if(ctx.request.body.type) {
-    save(ctx.request.body.type, ctx.request.body)  
+
+  if (ctx.request.body.type) {
+    save(ctx.request.body.type, ctx.request.body)
   }
 })
 
