@@ -16,12 +16,12 @@ const save = (key, entry) => {
   const store = process.env.STORE_FILE || 'db.json'
   createStore(store)
 
-  fs.readFile(store, function(err, file) {
+  fs.readFile(store, (err, file) => {
     const json = JSON.parse(file)
     json[key] = json[key] || []
     json[key].push(entry)
 
-    fs.writeFile(store, JSON.stringify(json))
+    fs.writeFileSync(store, JSON.stringify(json))
   })
 }
 
@@ -29,8 +29,11 @@ const app = new Koa()
 app.use(koaBody())
 
 app.use(async ctx => {
-  ctx.body = 'Hello World'
-  save(process.env.STORE_KEY || 'list', ctx.request.body)
+  ctx.body = { success: true }
+  
+  if(ctx.request.body.type) {
+    save(ctx.request.body.type, ctx.request.body)  
+  }
 })
 
 app.listen(process.env.PORT || 3000)
