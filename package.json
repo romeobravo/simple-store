@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/cors": "^2.2.1",
     "dotenv": "^5.0.1",
     "koa": "^2.5.0",
     "koa-body": "^2.5.0"

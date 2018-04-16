@@ -3,6 +3,7 @@ require('dotenv').config()
 const fs = require('fs')
 const Koa = require('koa')
 const koaBody = require('koa-body')
+const cors = require('@koa/cors')
 
 const createStore = file => {
   fs.exists(file, exists => {
@@ -34,6 +35,7 @@ const save = (key, entry) => {
 }
 
 const app = new Koa()
+app.use(cors())
 app.use(koaBody())
 
 app.use(async ctx => {
