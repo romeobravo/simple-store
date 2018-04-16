@@ -27,7 +27,7 @@ const save = (key, entry) => {
       json = {}
     }
 
-    json ||= {}
+    json = json || {}
     json[key] = json[key] || []
     json[key].push(entry)
 
